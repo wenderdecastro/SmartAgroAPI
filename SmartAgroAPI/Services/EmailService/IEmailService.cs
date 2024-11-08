@@ -1,8 +1,7 @@
-﻿namespace CasitaAPI.Utils.Mail
+﻿namespace SmartAgroAPI.Services.EmailService
 {
     public interface IEmailService
     {
-        //Metodo assincrono que recebe o objeto da classe mailrequest como se fosse uma view model
         Task SendEmailAsync(MailRequest mailRequest);
     }
 }
