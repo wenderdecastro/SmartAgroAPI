@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'smartagroapi'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8EBB7F4F898549D4960055EB4417A9F3 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D34DEA5FD44F4B3FA939B7F32BE41AA6 }}
           package: .
