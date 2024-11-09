@@ -29,15 +29,17 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddDbContext<SmartAgroDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SmartAgroDB")));
 
+builder.Environment.IsDevelopment();
+
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseHttpsRedirection();
 

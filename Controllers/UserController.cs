@@ -20,12 +20,7 @@ namespace SmartAgroAPI.Controllers
             _userRepository = new UserRepository();
         }
 
-        // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        
 
         // POST api/User/Login
         [HttpPost("Login")]
@@ -45,20 +40,6 @@ namespace SmartAgroAPI.Controllers
         }
 
 
-        // POST api/User/Register
-        [HttpPost("Register")]
-        public IActionResult Post(UserRegisterDTO userData)
-        {
-            _userRepository.Register(userData);
-            return Ok();
-
-        }
-
-        // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
+        
     }
 }
