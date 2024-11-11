@@ -9,7 +9,7 @@
             emailService = service;
         }
 
-        public async Task SendRecoveryEmail(string userName, string email, int codigo)
+        public async Task SendRecoveryEmailAsync(string userName, string email, int codigo)
         {
             try
             {

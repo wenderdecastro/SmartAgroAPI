@@ -15,24 +15,52 @@ namespace SmartAgroAPI.Repositories
             _context = new SmartAgroDbContext();
         }
 
-        public bool AuthenticateCode(Guid userId, string code)
+        public bool AuthenticateCode(Guid userId, Guid code)
         {
-            throw new NotImplementedException();
+            var user = GetById(userId);
+            if (user!.ExpiracaoCodigo!.Value < DateTime.Now)
+            {
+                return false;
+            }
+
+            return user.CodigoVerificacao == code;
+
         }
 
-        public void Edit(Guid userId, Usuario usuario)
+        public void ChangePassword(Guid userId, string newPassword)
         {
-            throw new NotImplementedException();
+            var user = _context.Usuarios.Find(userId);
+            user!.Senha = SHA256Encrypt.HashPassword(newPassword);
+            _context.Update(user);
+            _context.SaveChanges();
         }
 
-        public List<Usuario> GetAll()
+        public void Edit(Usuario editedUser)
         {
-            throw new NotImplementedException();
+            _context.Usuarios.Update(editedUser!);
+            _context.SaveChanges();
+
+        }
+
+        public List<UserDTO> GetAll()
+        {
+            return _context.Usuarios.Select(x => new UserDTO(x)).ToList();
+        }
+
+        public Usuario? GetByEmail(string email)
+        {
+            var user = _context.Usuarios.FirstOrDefault(x => x.Email == email);
+            if (user != null) user.Senha = string.Empty;
+
+            return user;
         }
 
         public Usuario? GetById(Guid id)
         {
-            throw new NotImplementedException();
+            var user = _context.Usuarios.Find(id);
+            if (user != null) user.Senha = string.Empty;
+
+            return user;
         }
 
         public Usuario? Login(UserAuthenticationDTO user)
@@ -43,14 +71,15 @@ namespace SmartAgroAPI.Repositories
             return usuario;
         }
 
-        public void Register(UserRegisterDTO user)
+        public void Register(UserRegisterDTO userData)
         {
             var newUser = new Usuario()
             {
                 Id = Guid.NewGuid(),
-                Nome = user.Name!,
-                Email = user.Email!,
-                Senha = SHA256Encrypt.HashPassword(user.Password!)
+                Nome = userData.Name!,
+                Email = userData.Email!,
+                Senha = SHA256Encrypt.HashPassword(userData.Password!),
+                Telefone = userData.Phone
             };
 
             _context.Usuarios.Add(newUser);

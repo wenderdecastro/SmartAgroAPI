@@ -14,7 +14,7 @@ public partial class SmartAgroDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Categoria> Categoria { get; set; }
+    public virtual DbSet<Categorium> Categoria { get; set; }
 
     public virtual DbSet<LogsSensor> LogsSensors { get; set; }
 
@@ -23,7 +23,7 @@ public partial class SmartAgroDbContext : DbContext
     public virtual DbSet<Usuario> Usuarios { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Categoria>(entity =>
+        modelBuilder.Entity<Categorium>(entity =>
         {
             entity.Property(e => e.Descricao)
                 .HasMaxLength(50)
@@ -87,14 +87,13 @@ public partial class SmartAgroDbContext : DbContext
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("ID");
-            entity.Property(e => e.CodigoVerificacao)
-                .HasMaxLength(6)
-                .IsUnicode(false);
             entity.Property(e => e.Email).HasMaxLength(256);
+            entity.Property(e => e.ExpiracaoCodigo).HasColumnType("datetime");
             entity.Property(e => e.Nome)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Senha).HasMaxLength(128);
+            entity.Property(e => e.Telefone).HasMaxLength(20);
         });
 
         OnModelCreatingPartial(modelBuilder);

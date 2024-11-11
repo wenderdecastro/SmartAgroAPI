@@ -6,11 +6,12 @@ namespace SmartAgroAPI.Interfaces
     public interface IUserRepository
     {
         Usuario? Login(UserAuthenticationDTO user);
-        bool AuthenticateCode(Guid userId, string code);
+        void ChangePassword(Guid userId, string newPassword);
         Usuario? GetById(Guid id);
-        List<Usuario> GetAll();
+        Usuario? GetByEmail(string email);
+        List<UserDTO> GetAll();
         void Register(UserRegisterDTO user);
-        void Edit(Guid userId, Usuario user);
+        void Edit(Usuario user);
 
 
     }

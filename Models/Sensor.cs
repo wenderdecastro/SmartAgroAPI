@@ -31,7 +31,7 @@ public partial class Sensor
 
     public Guid? UsuarioId { get; set; }
 
-    public virtual Categoria? Categoria { get; set; }
+    public virtual Categorium? Categoria { get; set; }
 
     public virtual ICollection<LogsSensor> LogsSensors { get; set; } = new List<LogsSensor>();
 
