@@ -12,7 +12,6 @@ namespace SmartAgroAPI.Interfaces
         List<UserDTO> GetAll();
         void Register(UserRegisterDTO user);
         void Edit(Usuario user);
-
-
+        string? GenerateRecoveryCode(Usuario user);
     }
 }

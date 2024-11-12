@@ -15,7 +15,7 @@ namespace SmartAgroAPI.Repositories
             _context = new SmartAgroDbContext();
         }
 
-        public bool AuthenticateCode(Guid userId, Guid code)
+        public bool AuthenticateCode(Guid userId, string code)
         {
             var user = GetById(userId);
             if (user!.ExpiracaoCodigo!.Value < DateTime.Now)
@@ -40,6 +40,21 @@ namespace SmartAgroAPI.Repositories
             _context.Usuarios.Update(editedUser!);
             _context.SaveChanges();
 
+        }
+
+        public string? GenerateRecoveryCode(Usuario user)
+        {
+            var random = new Random();
+            var recoveryCode = $"{random.Next(0, 9)}{random.Next(0, 9)}{random.Next(0, 9)}{random.Next(0, 9)}";
+
+            var expiration = DateTime.Now.AddMinutes(15);
+
+            user.CodigoVerificacao = recoveryCode;
+            user.ExpiracaoCodigo = expiration;
+
+            Edit(user);
+
+            return recoveryCode;
         }
 
         public List<UserDTO> GetAll()
@@ -79,7 +94,9 @@ namespace SmartAgroAPI.Repositories
                 Nome = userData.Name!,
                 Email = userData.Email!,
                 Senha = SHA256Encrypt.HashPassword(userData.Password!),
-                Telefone = userData.Phone
+                Telefone = userData.Phone,
+                IsAdmin = false
+
             };
 
             _context.Usuarios.Add(newUser);

@@ -1,6 +1,9 @@
-﻿namespace SmartAgroAPI.Models;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class Categoria
+namespace SmartAgroAPI.Models;
+
+public partial class Categorium
 {
     public int Id { get; set; }
 

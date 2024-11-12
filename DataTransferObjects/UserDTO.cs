@@ -8,7 +8,7 @@ namespace SmartAgroAPI.DataTransferObjects
         public string? Name { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
-        public Guid? RecoveryCode { get; set; }
+        public string? RecoveryCode { get; set; }
         public DateTime? CodeExpiration { get; set; }
 
         public UserDTO()

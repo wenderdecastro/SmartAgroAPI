@@ -15,7 +15,7 @@ public partial class Sensor
 
     public decimal? Longitude { get; set; }
 
-    public int? CategoriaId { get; set; }
+    public int CategoriaId { get; set; }
 
     public decimal? UmidadeSoloIdeal { get; set; }
 
@@ -29,11 +29,13 @@ public partial class Sensor
 
     public decimal? PhSoloIdeal { get; set; }
 
-    public Guid? UsuarioId { get; set; }
+    public Guid UsuarioId { get; set; }
 
-    public virtual Categorium? Categoria { get; set; }
+    public virtual Categoria Categoria { get; set; } = null!;
 
     public virtual ICollection<LogsSensor> LogsSensors { get; set; } = new List<LogsSensor>();
 
-    public virtual Usuario? Usuario { get; set; }
+    public virtual ICollection<Notificaco> Notificacos { get; set; } = new List<Notificaco>();
+
+    public virtual Usuario Usuario { get; set; } = null!;
 }

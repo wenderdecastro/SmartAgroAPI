@@ -9,7 +9,7 @@
             emailService = service;
         }
 
-        public async Task SendRecoveryEmailAsync(string userName, string email, int codigo)
+        public async Task SendRecoveryEmailAsync(string userName, string email, string codigo)
         {
             try
             {
@@ -28,7 +28,7 @@
             }
         }
 
-        private string GetHtmlContentRecovery(string userName, int codigo)
+        private string GetHtmlContentRecovery(string userName, string codigo)
         {
             string Response = $@"<!DOCTYPE html>
 <div style=""width:100%; background-color:rgba(96, 191, 197, 1); padding: 20px;"">
