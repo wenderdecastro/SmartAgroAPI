@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartAgroAPI.DataTransferObjects;
 using SmartAgroAPI.Interfaces;
 using SmartAgroAPI.Services;
@@ -8,6 +9,8 @@ using SmartAgroAPI.Services.EmailService;
 
 namespace SmartAgroAPI.Controllers
 {
+
+
     /// <summary>
     /// Controller that manage the users in the system.
     /// </summary>
@@ -46,6 +49,7 @@ namespace SmartAgroAPI.Controllers
         /// </remarks>
         /// <response code="200">Returns a JWT token upon successful authentication.</response>
         /// <response code="401">Unauthorized, invalid email or password.</response>
+        [AllowAnonymous]
         [HttpPost("Login")]
         public IActionResult Post([FromBody] UserAuthenticationDTO userCredentials)
         {
@@ -56,7 +60,7 @@ namespace SmartAgroAPI.Controllers
                 return Unauthorized();
             }
 
-            var token = JWTService.GenerateToken(user.Id, user.Email);
+            var token = JWTService.GenerateToken(user.Id, user.Email, user.IsAdmin);
 
             return Ok(new TokenDTO() { Token = token });
 
@@ -76,6 +80,7 @@ namespace SmartAgroAPI.Controllers
         /// </remarks>
         /// <response code="200">Returns the created user's information.</response>
         /// <response code="400">Bad request, invalid input or missing required fields.</response>
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Register([FromBody] UserRegisterDTO userData)
         {
@@ -119,6 +124,7 @@ namespace SmartAgroAPI.Controllers
         /// <response code="201">The user was found.</response>
         /// <response code="404">User not found with the specified ID.</response>
         [HttpGet("{id}")]
+        [Authorize(Policy = "AdminOnly")]
         public IActionResult GetUserById(Guid id)
         {
             var user = _userRepository.GetById(id);
@@ -144,6 +150,7 @@ namespace SmartAgroAPI.Controllers
         /// <response code="204">The user was successfully updated with the provided details.</response>
         /// <response code="404">User not found with the specified ID.</response>
         [HttpPatch("{id}")]
+        [Authorize]
         public IActionResult EditUserById(Guid id, [FromBody] UserDTO editedUser)
         {
             var user = _userRepository.GetById(id);
@@ -170,6 +177,7 @@ namespace SmartAgroAPI.Controllers
         /// For security reasons, the response is the same whether or not the email exists in the system.
         /// </returns>
         /// /// <response code="200">Recovery code sent if an account with the given email exists.</response>
+        [AllowAnonymous]
         [HttpPost("recover-password")]
         public async Task<IActionResult> InitiatePasswordRecovery([FromBody] RecoverPasswordDTO model)
         {
@@ -202,6 +210,7 @@ namespace SmartAgroAPI.Controllers
         /// </remarks>
         /// <response code="200">Password was successfully reset.</response>
         /// <response code="400">Bad request, invalid token or other input errors.</response>
+        [AllowAnonymous]
         [HttpPost("reset-password")]
         public IActionResult VerifyPasswordRecoveryCode([FromBody] ResetPasswordDTO model)
         {

@@ -7,7 +7,7 @@ namespace SmartAgroAPI.Services
     public static class JWTService
     {
 
-        public static string GenerateToken(Guid userId, string email)
+        public static string GenerateToken(Guid userId, string email, bool userAuth)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = "SmartAgroSecurityKey"u8.ToArray();
@@ -16,7 +16,8 @@ namespace SmartAgroAPI.Services
             {
                 new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new (JwtRegisteredClaimNames.Sub, userId.ToString()),
-                new (JwtRegisteredClaimNames.Email, email)
+                new (JwtRegisteredClaimNames.Email, email),
+                new ("isAdmin", userAuth.ToString())
             };
 
             var descriptor = new SecurityTokenDescriptor()
