@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SmartAgroAPI.Models;
+﻿namespace SmartAgroAPI.Models;
 
 public partial class Sensor
 {
@@ -35,7 +32,7 @@ public partial class Sensor
 
     public virtual ICollection<LogsSensor> LogsSensors { get; set; } = new List<LogsSensor>();
 
-    public virtual ICollection<Notificaco> Notificacos { get; set; } = new List<Notificaco>();
+    public virtual ICollection<Notificacao> Notificacaos { get; set; } = new List<Notificacao>();
 
     public virtual Usuario Usuario { get; set; } = null!;
 }

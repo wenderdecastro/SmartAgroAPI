@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace SmartAgroAPI.Models;
 
-namespace SmartAgroAPI.Models;
-
+/// <summary>
+/// A log object that contain all the sensor fields. The log is based in the time that was created.
+/// </summary>
 public partial class LogsSensor
 {
     public int Id { get; set; }

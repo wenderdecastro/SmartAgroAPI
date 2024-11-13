@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace SmartAgroAPI.Models;
 
-namespace SmartAgroAPI.Models;
-
-public partial class Notificaco
+public partial class Notificacao
 {
     public int Id { get; set; }
 

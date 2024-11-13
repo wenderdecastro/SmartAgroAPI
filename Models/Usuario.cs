@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SmartAgroAPI.Models;
+﻿namespace SmartAgroAPI.Models;
 
 public partial class Usuario
 {
@@ -21,7 +18,7 @@ public partial class Usuario
 
     public DateTime? ExpiracaoCodigo { get; set; }
 
-    public virtual ICollection<Notificaco> Notificacos { get; set; } = new List<Notificaco>();
+    public virtual ICollection<Notificacao> Notificacaos { get; set; } = new List<Notificacao>();
 
     public virtual ICollection<Sensor> Sensors { get; set; } = new List<Sensor>();
 }

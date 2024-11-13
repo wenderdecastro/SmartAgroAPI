@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SmartAgroAPI.Models;
 
 namespace SmartAgroAPI.Contexts;
@@ -16,25 +14,20 @@ public partial class SmartAgroDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Categorium> Categoria { get; set; }
+    public virtual DbSet<Categoria> Categoria { get; set; }
 
     public virtual DbSet<LogsSensor> LogsSensors { get; set; }
 
-    public virtual DbSet<NotificacaoStatus> NotificacaoStatuses { get; set; }
+    public virtual DbSet<Notificacao> Notificacaos { get; set; }
 
-    public virtual DbSet<Notificaco> Notificacoes { get; set; }
+    public virtual DbSet<NotificacaoStatus> NotificacaoStatuses { get; set; }
 
     public virtual DbSet<Sensor> Sensors { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=smartagroserver.database.windows.net;Database=SmartAgroDB;User Id=SmartAgro;pwd=Grupo6DB;Trusted_Connection=False;Encrypt=True;");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Categorium>(entity =>
+        modelBuilder.Entity<Categoria>(entity =>
         {
             entity.Property(e => e.Descricao)
                 .HasMaxLength(50)
@@ -61,6 +54,35 @@ public partial class SmartAgroDbContext : DbContext
                 .HasConstraintName("FK_LogsSensor_Sensor");
         });
 
+        modelBuilder.Entity<Notificacao>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_Notificacoes");
+
+            entity.ToTable("Notificacao");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.DataCriacao).HasColumnType("datetime");
+            entity.Property(e => e.Mensagem).HasColumnType("text");
+            entity.Property(e => e.Propriedade)
+                .HasMaxLength(40)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Sensor).WithMany(p => p.Notificacaos)
+                .HasForeignKey(d => d.SensorId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Notificacoes_Sensor");
+
+            entity.HasOne(d => d.Status).WithMany(p => p.Notificacaos)
+                .HasForeignKey(d => d.StatusId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Notificacoes_NotificacaoStatus");
+
+            entity.HasOne(d => d.Usuario).WithMany(p => p.Notificacaos)
+                .HasForeignKey(d => d.UsuarioId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Notificacoes_Usuario");
+        });
+
         modelBuilder.Entity<NotificacaoStatus>(entity =>
         {
             entity.ToTable("NotificacaoStatus");
@@ -69,31 +91,6 @@ public partial class SmartAgroDbContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(15)
                 .IsUnicode(false);
-        });
-
-        modelBuilder.Entity<Notificaco>(entity =>
-        {
-            entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.DataCriacao).HasColumnType("datetime");
-            entity.Property(e => e.Mensagem).HasColumnType("text");
-            entity.Property(e => e.Propriedade)
-                .HasMaxLength(40)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.Sensor).WithMany(p => p.Notificacos)
-                .HasForeignKey(d => d.SensorId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Notificacoes_Sensor");
-
-            entity.HasOne(d => d.Status).WithMany(p => p.Notificacos)
-                .HasForeignKey(d => d.StatusId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Notificacoes_NotificacaoStatus");
-
-            entity.HasOne(d => d.Usuario).WithMany(p => p.Notificacos)
-                .HasForeignKey(d => d.UsuarioId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Notificacoes_Usuario");
         });
 
         modelBuilder.Entity<Sensor>(entity =>

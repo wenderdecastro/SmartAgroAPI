@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace SmartAgroAPI.Models;
 
-namespace SmartAgroAPI.Models;
-
-public partial class Categorium
+/// <summary>
+/// The category of the sensor, it shows the type of the farm
+/// Ex: If the sensor's farm is a tuber farm
+/// </summary>
+public partial class Categoria
 {
     public int Id { get; set; }
 

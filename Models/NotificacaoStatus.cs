@@ -9,5 +9,5 @@ public partial class NotificacaoStatus
 
     public string Status { get; set; } = null!;
 
-    public virtual ICollection<Notificaco> Notificacos { get; set; } = new List<Notificaco>();
+    public virtual ICollection<Notificacao> Notificacaos { get; set; } = new List<Notificacao>();
 }

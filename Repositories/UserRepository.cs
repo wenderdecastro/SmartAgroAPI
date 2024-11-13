@@ -59,7 +59,7 @@ namespace SmartAgroAPI.Repositories
 
         public List<UserDTO> GetAll()
         {
-            return _context.Usuarios.Select(x => new UserDTO(x)).ToList();
+            return [.. _context.Usuarios.Select(x => new UserDTO(x))];
         }
 
         public Usuario? GetByEmail(string email)
@@ -94,7 +94,7 @@ namespace SmartAgroAPI.Repositories
                 Nome = userData.Name!,
                 Email = userData.Email!,
                 Senha = SHA256Encrypt.HashPassword(userData.Password!),
-                Telefone = userData.Phone,
+                Telefone = userData.Phone!,
                 IsAdmin = false
 
             };

@@ -5,13 +5,14 @@ namespace SmartAgroAPI.DataTransferObjects
     public class ResetPasswordDTO
     {
         [Required]
-        public string? Email { get; set; }
+        [EmailAddress]
+        public required string Email { get; set; }
 
         [Required]
-        public string? TemporaryToken { get; set; }
+        public required string TemporaryToken { get; set; }
 
         [Required]
-        public string? NewPassowrd { get; set; }
+        public required string NewPassword { get; set; }
 
     }
 }

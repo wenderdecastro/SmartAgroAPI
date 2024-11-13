@@ -186,6 +186,37 @@ namespace SmartAgroAPI.Controllers
         }
 
 
+        /// <summary>
+        /// Verifies a temporary password recovery code and resets the user's password if valid.
+        /// </summary>
+        /// <param name="model">
+        /// An object containing the user's email, temporary token, and new password.
+        /// </param>
+        /// <returns>
+        /// A `200 OK` response with a success message if the password is successfully reset; 
+        /// `400 Bad Request` if the provided token is invalid.
+        /// </returns>
+        /// <remarks>
+        /// This endpoint allows users to reset their password by providing a valid recovery token. 
+        /// If the token is correct, the user's password will be updated with the new one provided.
+        /// </remarks>
+        /// <response code="200">Password was successfully reset.</response>
+        /// <response code="400">Bad request, invalid token or other input errors.</response>
+        [HttpPost("reset-password")]
+        public IActionResult VerifyPasswordRecoveryCode([FromBody] ResetPasswordDTO model)
+        {
+            var user = _userRepository.GetByEmail(model.Email!);
+
+            var authenticated = _userRepository.AuthenticateCode(user!.Id, model.TemporaryToken!);
+
+            _userRepository.ChangePassword(user.Id, model.NewPassword!);
+            if (authenticated) return Ok("User password sucessfully changed.");
+
+            return BadRequest("Invalid token.");
+
+        }
+
+
 
 
 

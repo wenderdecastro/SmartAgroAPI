@@ -32,13 +32,13 @@ builder.Services.AddSwaggerGen(options =>
         Description = "An ASP.NET Core Web API for managing the Smart Agro system, which is an application for agriculture sensor data tracking",
         Contact = new OpenApiContact
         {
-            Name = "Wender de Castro (API ADMIN)",
+            Name = "Wender de Castro (API admin)",
             Url = new Uri("https://github.com/wenderdecastro")
         },
         License = new OpenApiLicense
         {
             Name = "MIT LICENSE",
-            Url = new Uri("https://github.com/wenderdecastro/SmartAgroAPI/blob/main/LICENSE")
+            Url = new Uri("https://github.com/wenderdecastro/SmartAgroAPI/blob/main/LICENSE.txt")
         }
 
     });

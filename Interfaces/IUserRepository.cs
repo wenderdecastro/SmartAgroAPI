@@ -13,5 +13,6 @@ namespace SmartAgroAPI.Interfaces
         void Register(UserRegisterDTO user);
         void Edit(Usuario user);
         string? GenerateRecoveryCode(Usuario user);
+        bool AuthenticateCode(Guid userId, string code);
     }
 }
