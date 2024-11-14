@@ -4,13 +4,13 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SmartAgroAPI.Contexts;
 using SmartAgroAPI.Interfaces;
+using SmartAgroAPI.Mappings;
 using SmartAgroAPI.Repositories;
 using SmartAgroAPI.Services.EmailService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(x => x.TokenValidationParameters = new TokenValidationParameters
@@ -20,10 +20,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ValidAudience = "SmartAgroAudience"
     });
 
+//AutoMapper
+
+builder.Services.AddAutoMapper(typeof(SensorProfile));
+
+
+
+//Api Services
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+//Swagger
 builder.Services.AddSwaggerGen(options =>
 {
+
+    //Swagger documentation
+
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
@@ -43,6 +56,12 @@ builder.Services.AddSwaggerGen(options =>
     }
     );
 
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+    options.IncludeXmlComments(xmlPath);
+
+    //Jwt Authorization and Authentication for Swagger with Bearer Auth
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization Header - set up with Bearer Authentication.\r\n\r\n" +
@@ -70,10 +89,7 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 
-    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
-    options.IncludeXmlComments(xmlPath);
 });
 
 //Dependency Injections

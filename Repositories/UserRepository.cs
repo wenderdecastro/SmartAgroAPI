@@ -10,9 +10,9 @@ namespace SmartAgroAPI.Repositories
     {
         private readonly SmartAgroDbContext _context;
 
-        public UserRepository()
+        public UserRepository(SmartAgroDbContext context)
         {
-            _context = new SmartAgroDbContext();
+            _context = context;
         }
 
         public bool AuthenticateCode(Guid userId, string code)

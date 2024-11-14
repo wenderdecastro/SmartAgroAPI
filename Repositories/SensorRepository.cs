@@ -1,4 +1,5 @@
-﻿using SmartAgroAPI.Contexts;
+﻿using AutoMapper;
+using SmartAgroAPI.Contexts;
 using SmartAgroAPI.DataTransferObjects;
 using SmartAgroAPI.Interfaces;
 using SmartAgroAPI.Models;
@@ -9,10 +10,12 @@ namespace SmartAgroAPI.Repositories
     {
 
         public readonly SmartAgroDbContext _context;
+        public readonly IMapper _mapper;
 
-        public SensorRepository()
+        public SensorRepository(SmartAgroDbContext context, IMapper mapper)
         {
-            _context = new SmartAgroDbContext();
+            _context = context;
+            _mapper = mapper;
         }
 
         public void ChangeLocation(int sensorId, decimal longitude, decimal latitude)
@@ -29,22 +32,10 @@ namespace SmartAgroAPI.Repositories
             _context.SaveChanges();
         }
 
-        public void Edit(int sensorId, Sensor editedSensor)
+        public void Edit(int sensorId, EditSensorDTO editedSensor)
         {
             var oldSensor = GetById(sensorId);
-
-            foreach (var property in typeof(Sensor).GetProperties())
-            {
-                if (property.Name == "Id") continue;
-                var oldValue = property.GetValue(oldSensor);
-                var newValue = property.GetValue(editedSensor);
-
-                if (!Equals(oldValue, newValue))
-                {
-                    property.SetValue(oldSensor, newValue);
-                }
-            }
-
+            _mapper.Map(editedSensor, oldSensor);
             _context.Sensors.Update(oldSensor!);
             _context.SaveChanges();
         }
@@ -78,9 +69,7 @@ namespace SmartAgroAPI.Repositories
                 new SensorDTO(x)
                 {
                     SensorLogs = x.LogsSensors.Select(x => new LogsSensorDTO(x)).ToList()
-                }
-
-                )
+                })
                 .ToList();
 
             return sensores;
