@@ -111,6 +111,10 @@ builder.Services.AddAuthorization(options =>
 
 builder.Environment.IsDevelopment();
 
+//azure
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -121,6 +125,9 @@ app.UseSwaggerUI(options =>
 });
 
 app.UseHttpsRedirection();
+
+//azure
+app.UseDeveloperExceptionPage();
 
 app.UseAuthorization();
 
