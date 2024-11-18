@@ -17,7 +17,7 @@ namespace SmartAgroAPI.Services
                 new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new (JwtRegisteredClaimNames.Sub, userId.ToString()),
                 new (JwtRegisteredClaimNames.Email, email),
-                new ("isAdmin", userAuth.ToString())
+                new ("isAdmin", userAuth.ToString().ToLower())
             };
 
             var descriptor = new SecurityTokenDescriptor()

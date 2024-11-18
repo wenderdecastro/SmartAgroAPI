@@ -100,7 +100,9 @@ builder.Services.AddScoped<EmailSendingService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-builder.Services.AddDbContext<SmartAgroDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SmartAgroDB")));
+builder.Services.AddDbContext<SmartAgroDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SmartAgroDB"))
+);
 
 //Configurations
 

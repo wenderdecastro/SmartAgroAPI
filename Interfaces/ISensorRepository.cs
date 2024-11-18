@@ -11,8 +11,6 @@ namespace SmartAgroAPI.Interfaces
         void Register(Sensor sensor);
         void ChangeLocation(int sensorId, decimal longitude, decimal latitude);
         void CreateLog(LogsSensor log);
-
-
         Sensor? GetById(int sensorId);
 
 
