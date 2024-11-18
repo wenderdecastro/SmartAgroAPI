@@ -60,9 +60,9 @@ namespace SmartAgroAPI.Controllers
                 return Unauthorized();
             }
 
-            var token = JWTService.GenerateToken(user.Id, user.Email, user.IsAdmin);
+            var token = JWTService.GenerateToken(user);
 
-            return Ok(new TokenDTO() { Token = token });
+            return Ok(new TokenDTO() { user = new UserDTO(user), Token = token });
 
         }
 
@@ -122,10 +122,9 @@ namespace SmartAgroAPI.Controllers
         /// <remarks>
         /// This endpoint allows getting an user object by his unique identifier.
         /// </remarks>
-        /// <response code="201">The user was found.</response>
+        /// <response code="200">The user was found.</response>
         /// <response code="404">User not found with the specified ID.</response>
         [HttpGet("{id}")]
-        [Authorize(Policy = "AdminOnly")]
         public IActionResult GetUserById(Guid id)
         {
             var user = _userRepository.GetById(id);

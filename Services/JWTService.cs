@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using SmartAgroAPI.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -7,7 +8,7 @@ namespace SmartAgroAPI.Services
     public static class JWTService
     {
 
-        public static string GenerateToken(Guid userId, string email, bool userAuth)
+        public static string GenerateToken(Usuario user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = "SmartAgroJwtTokenSecurityKeyGrupo6"u8.ToArray();
@@ -15,9 +16,10 @@ namespace SmartAgroAPI.Services
             var claims = new List<Claim>()
             {
                 new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new (JwtRegisteredClaimNames.Sub, userId.ToString()),
-                new (JwtRegisteredClaimNames.Email, email),
-                new ("isAdmin", userAuth.ToString().ToLower())
+                new (JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new (JwtRegisteredClaimNames.Name, user.Nome),
+                new (JwtRegisteredClaimNames.Email, user.Email),
+                new ("isAdmin", user.IsAdmin.ToString().ToLower())
             };
 
             var descriptor = new SecurityTokenDescriptor()
