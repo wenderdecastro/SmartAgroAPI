@@ -68,7 +68,7 @@ namespace SmartAgroAPI.Repositories
                 .Select(x =>
                 new SensorDTO(x)
                 {
-                    SensorLogs = x.LogsSensors.Select(x => new LogsSensorDTO(x)).ToList()
+                    SensorLogs = x.LogsSensors.Select(x => new LogsSensorDTO(x)).ToList(),
                 })
                 .ToList();
 

@@ -13,6 +13,8 @@ namespace SmartAgroAPI.DataTransferObjects
         public LogsSensorDTO(LogsSensor log)
         {
             this.TemperaturaSolo = log.TemperaturaSolo;
+            this.UmidadeAr = log.UmidadeAr;
+            this.QualidadeAr = log.QualidadeAr;
             this.PhSolo = log.PhSolo;
             this.TemperaturaAr = log.TemperaturaAr;
             this.Luminosidade = log.Luminosidade;

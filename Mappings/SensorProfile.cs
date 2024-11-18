@@ -9,6 +9,7 @@ namespace SmartAgroAPI.Mappings
         public SensorProfile()
         {
             CreateMap<Sensor, SensorDTO>().ReverseMap();
+            CreateMap<LogsSensor, LogsSensorDTO>().ReverseMap();
         }
     }
 }

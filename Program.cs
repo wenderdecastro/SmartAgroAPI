@@ -99,6 +99,7 @@ builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddScoped<EmailSendingService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ISensorRepository, SensorRepository>();
 
 builder.Services.AddDbContext<SmartAgroDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SmartAgroDB"))

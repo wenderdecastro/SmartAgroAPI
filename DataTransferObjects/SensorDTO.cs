@@ -24,7 +24,7 @@ namespace SmartAgroAPI.DataTransferObjects
             DataColheita = sensor.DataColheita;
             Latitude = sensor.Latitude;
             Longitude = sensor.Longitude;
-            SensorCategory = sensor.Categoria;
+
 
         }
         public int SensorId { get; set; }
@@ -63,7 +63,6 @@ namespace SmartAgroAPI.DataTransferObjects
             }
         }
 
-        public virtual Categoria? SensorCategory { get; set; }
 
     }
 }
