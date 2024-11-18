@@ -131,7 +131,9 @@ app.UseHttpsRedirection();
 //azure
 app.UseDeveloperExceptionPage();
 
+//auth
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 

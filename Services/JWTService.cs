@@ -10,7 +10,7 @@ namespace SmartAgroAPI.Services
         public static string GenerateToken(Guid userId, string email, bool userAuth)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = "SmartAgroSecurityKey"u8.ToArray();
+            var key = "SmartAgroJwtTokenSecurityKeyGrupo6"u8.ToArray();
 
             var claims = new List<Claim>()
             {

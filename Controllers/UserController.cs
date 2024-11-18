@@ -102,6 +102,7 @@ namespace SmartAgroAPI.Controllers
         /// </remarks>
         /// <response code="200">Returns all users in the system.</response>
         [HttpGet]
+        [Authorize(Policy = "AdminOnly")]
         public IActionResult GetAllUsers()
         {
             return Ok(_userRepository.GetAll());
