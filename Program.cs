@@ -94,7 +94,7 @@ builder.Services.AddSwaggerGen(options =>
 
 //Dependency Injections
 
-builder.Services.Configure<IEmailService>(builder.Configuration.GetSection(nameof(EmailService)));
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddScoped<EmailSendingService>();
 

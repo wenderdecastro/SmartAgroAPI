@@ -12,10 +12,10 @@ namespace SmartAgroAPI.Services.EmailService
 
         public EmailService(IOptions<EmailSettings> options)
         {
-
             emailSettings = options.Value;
 
         }
+
         public async Task SendEmailAsync(MailRequest mailRequest)
         {
             var email = new MimeMessage();
@@ -31,7 +31,6 @@ namespace SmartAgroAPI.Services.EmailService
             using (var smtp = new SmtpClient())
             {
                 smtp.Connect(emailSettings.Host, emailSettings.Port, SecureSocketOptions.StartTls);
-
 
                 smtp.Authenticate(emailSettings.Email, emailSettings.Password);
 

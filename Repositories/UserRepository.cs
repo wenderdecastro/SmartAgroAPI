@@ -42,15 +42,17 @@ namespace SmartAgroAPI.Repositories
 
         }
 
-        public string? GenerateRecoveryCode(Usuario user)
+        public string? GenerateRecoveryCode(Guid userId)
         {
             var random = new Random();
             var recoveryCode = $"{random.Next(0, 9)}{random.Next(0, 9)}{random.Next(0, 9)}{random.Next(0, 9)}";
 
             var expiration = DateTime.Now.AddMinutes(15);
 
-            user.CodigoVerificacao = recoveryCode;
-            user.ExpiracaoCodigo = expiration;
+            var user = _context.Usuarios.Find(userId);
+
+            user!.CodigoVerificacao = recoveryCode;
+            user!.ExpiracaoCodigo = expiration;
 
             Edit(user);
 
