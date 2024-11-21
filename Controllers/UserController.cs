@@ -184,7 +184,7 @@ namespace SmartAgroAPI.Controllers
             var user = _userRepository.GetByEmail(model!.Email!);
             if (user == null) return Ok("Code sent if the account with the given email exists.");
 
-            var recoveryCode = _userRepository.GenerateRecoveryCode(user);
+            var recoveryCode = _userRepository.GenerateRecoveryCode(user.Id);
 
             await _emailService.SendRecoveryEmailAsync(user.Nome!, user.Email, recoveryCode!);
 
