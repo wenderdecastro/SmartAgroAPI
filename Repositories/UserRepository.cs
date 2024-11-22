@@ -39,6 +39,7 @@ namespace SmartAgroAPI.Repositories
 
         public void Edit(Usuario editedUser)
         {
+
             _context.Usuarios.Update(editedUser!);
             _context.SaveChanges();
 
@@ -69,8 +70,6 @@ namespace SmartAgroAPI.Repositories
         public Usuario? GetByEmail(string email)
         {
             var user = _context.Usuarios.FirstOrDefault(x => x.Email == email);
-            if (user != null) user.Senha = string.Empty;
-
             return user;
         }
 
