@@ -1,4 +1,7 @@
-﻿namespace SmartAgroAPI.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace SmartAgroAPI.Models;
 
 public partial class Usuario
 {

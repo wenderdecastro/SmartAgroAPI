@@ -62,18 +62,15 @@ public partial class SmartAgroDbContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.DataCriacao).HasColumnType("datetime");
-            entity.Property(e => e.Mensagem).HasColumnType("text");
-            entity.Property(e => e.Propriedade)
-                .HasMaxLength(40)
-                .IsUnicode(false);
+            entity.Property(e => e.MensagemCustomizada).HasColumnType("text");
 
             entity.HasOne(d => d.Sensor).WithMany(p => p.Notificacaos)
                 .HasForeignKey(d => d.SensorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Notificacoes_Sensor");
 
-            entity.HasOne(d => d.Status).WithMany(p => p.Notificacaos)
-                .HasForeignKey(d => d.StatusId)
+            entity.HasOne(d => d.TipoNotificacao).WithMany(p => p.Notificacaos)
+                .HasForeignKey(d => d.TipoNotificacaoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Notificacoes_NotificacaoStatus");
 
@@ -88,6 +85,7 @@ public partial class SmartAgroDbContext : DbContext
             entity.ToTable("NotificacaoStatus");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Mensagem).HasColumnType("text");
             entity.Property(e => e.Status)
                 .HasMaxLength(15)
                 .IsUnicode(false);

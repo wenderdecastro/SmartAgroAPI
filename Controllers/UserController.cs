@@ -11,7 +11,6 @@ using SmartAgroAPI.Services.EmailService;
 namespace SmartAgroAPI.Controllers
 {
 
-
     /// <summary>
     /// Controller that manage the users in the system.
     /// </summary>
@@ -191,9 +190,7 @@ namespace SmartAgroAPI.Controllers
 
             return Ok("Code sent if the account with the given email exists.");
 
-
         }
-
 
         /// <summary>
         /// Verifies a temporary password recovery code.
@@ -219,15 +216,12 @@ namespace SmartAgroAPI.Controllers
 
             var authenticated = _userRepository.AuthenticateCode(user!.Id, model.Code!);
 
-            if (!authenticated || user.ExpiracaoCodigo.Value < DateTime.Now)
+            if (!authenticated || user.ExpiracaoCodigo!.Value < DateTime.Now)
                 return BadRequest("Invalid token.");
 
             return Ok("Valid token.");
 
-
-
         }
-
 
         /// <summary>
         /// Verifies a temporary password recovery code and resets the user's password if valid.
@@ -258,12 +252,5 @@ namespace SmartAgroAPI.Controllers
 
             return BadRequest("Invalid token.");
         }
-
-
-
-
-
-
-
     }
 }
