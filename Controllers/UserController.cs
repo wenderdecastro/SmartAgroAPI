@@ -30,6 +30,7 @@ namespace SmartAgroAPI.Controllers
         /// </summary>
         /// <param name="userRepository"></param>
         /// <param name="emailSendingService"></param>
+        /// <param name="mapper"></param>
         public UserController(IUserRepository userRepository, EmailSendingService emailSendingService, IMapper mapper)
         {
             _userRepository = userRepository;
