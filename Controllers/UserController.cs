@@ -219,11 +219,12 @@ namespace SmartAgroAPI.Controllers
 
             var authenticated = _userRepository.AuthenticateCode(user!.Id, model.Code!);
 
-            if (authenticated)
-                return Ok("Valid token.");
+            if (!authenticated || user.ExpiracaoCodigo.Value < DateTime.Now)
+                return BadRequest("Invalid token.");
+
+            return Ok("Valid token.");
 
 
-            return BadRequest("Invalid token.");
 
         }
 

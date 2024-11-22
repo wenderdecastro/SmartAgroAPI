@@ -31,6 +31,8 @@ namespace SmartAgroAPI.Repositories
         {
             var user = _context.Usuarios.Find(userId);
             user!.Senha = SHA256Encrypt.HashPassword(newPassword);
+            user.CodigoVerificacao = null;
+            user.ExpiracaoCodigo = null;
             _context.Update(user);
             _context.SaveChanges();
         }

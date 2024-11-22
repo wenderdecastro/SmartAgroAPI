@@ -11,21 +11,21 @@
 
         public async Task SendRecoveryEmailAsync(string userName, string email, string codigo)
         {
-            try
+            //try
+            //{
+            MailRequest request = new MailRequest
             {
-                MailRequest request = new MailRequest
-                {
-                    ToEmail = email,
-                    Subject = "Smart Agro - Recuperação de senha",
-                    Body = GetHtmlContentRecovery(userName, codigo)
-                };
+                ToEmail = email,
+                Subject = "Smart Agro - Recuperação de senha",
+                Body = GetHtmlContentRecovery(userName, codigo)
+            };
 
-                await emailService.SendEmailAsync(request);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            await emailService.SendEmailAsync(request);
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
         }
 
         private string GetHtmlContentRecovery(string userName, string codigo)
