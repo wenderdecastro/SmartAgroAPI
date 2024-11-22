@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartAgroAPI.DataTransferObjects;
 using SmartAgroAPI.Interfaces;
@@ -20,6 +21,8 @@ namespace SmartAgroAPI.Controllers
     {
 
         private readonly IUserRepository _userRepository;
+        public readonly IMapper _mapper;
+
         private readonly EmailSendingService _emailService;
 
         /// <summary>
@@ -27,10 +30,11 @@ namespace SmartAgroAPI.Controllers
         /// </summary>
         /// <param name="userRepository"></param>
         /// <param name="emailSendingService"></param>
-        public UserController(IUserRepository userRepository, EmailSendingService emailSendingService)
+        public UserController(IUserRepository userRepository, EmailSendingService emailSendingService, IMapper mapper)
         {
             _userRepository = userRepository;
             _emailService = emailSendingService;
+            _mapper = mapper;
         }
 
 
@@ -56,9 +60,7 @@ namespace SmartAgroAPI.Controllers
             var user = _userRepository.Login(userCredentials);
 
             if (user == null)
-            {
                 return Unauthorized();
-            }
 
             var token = JWTService.GenerateToken(user);
 
@@ -84,7 +86,7 @@ namespace SmartAgroAPI.Controllers
         [HttpPost]
         public IActionResult Register([FromBody] UserRegisterDTO userData)
         {
-
+            if (_userRepository.GetByEmail(userData.Email) != null) return BadRequest("An user with the provided email already exists.");
             _userRepository.Register(userData);
             return Ok(userData);
         }
@@ -155,11 +157,7 @@ namespace SmartAgroAPI.Controllers
         {
             var user = _userRepository.GetById(id);
 
-            if (!string.IsNullOrEmpty(editedUser.Email)) user!.Email = editedUser.Email;
-            if (!string.IsNullOrEmpty(editedUser.Name)) user!.Nome = editedUser.Name;
-            if (!string.IsNullOrEmpty(editedUser.Phone)) user!.Telefone = editedUser.Phone;
-            if (editedUser.CodeExpiration != null) user!.ExpiracaoCodigo = editedUser.CodeExpiration;
-            if (editedUser.RecoveryCode != null) user!.CodigoVerificacao = editedUser.RecoveryCode;
+            _mapper.Map(editedUser, user);
 
             _userRepository.Edit(user!);
 
@@ -182,7 +180,9 @@ namespace SmartAgroAPI.Controllers
         public async Task<IActionResult> InitiatePasswordRecovery([FromBody] RecoverPasswordDTO model)
         {
             var user = _userRepository.GetByEmail(model!.Email!);
-            if (user == null) return Ok("Code sent if the account with the given email exists.");
+
+            if (user == null)
+                return Ok("Code sent if the account with the given email exists.");
 
             var recoveryCode = _userRepository.GenerateRecoveryCode(user.Id);
 
@@ -190,6 +190,39 @@ namespace SmartAgroAPI.Controllers
 
             return Ok("Code sent if the account with the given email exists.");
 
+
+        }
+
+
+        /// <summary>
+        /// Verifies a temporary password recovery code.
+        /// </summary>
+        /// <param name="model">
+        /// An object containing the user's email and temporary token.
+        /// </param>
+        /// <returns>
+        /// A `200 OK` response with a success message if the token is valid; 
+        /// `400 Bad Request` if the provided token is invalid.
+        /// </returns>
+        /// <remarks>
+        /// This endpoint allows users to authenticate the password reset process
+        /// If the token is correct, the user will have permission to reset his password
+        /// </remarks>
+        /// <response code="200">Token verified.</response>
+        /// <response code="400">Bad request, invalid token or other input errors.</response>
+        [AllowAnonymous]
+        [HttpPost("verify-code")]
+        public IActionResult VerifyPasswordRecoveryCode([FromBody] VerifyCodeDTO model)
+        {
+            var user = _userRepository.GetByEmail(model.Email);
+
+            var authenticated = _userRepository.AuthenticateCode(user!.Id, model.Code!);
+
+            if (authenticated)
+                return Ok("Valid token.");
+
+
+            return BadRequest("Invalid token.");
 
         }
 
@@ -212,7 +245,7 @@ namespace SmartAgroAPI.Controllers
         /// <response code="400">Bad request, invalid token or other input errors.</response>
         [AllowAnonymous]
         [HttpPost("reset-password")]
-        public IActionResult VerifyPasswordRecoveryCode([FromBody] ResetPasswordDTO model)
+        public IActionResult ResetPassword([FromBody] ResetPasswordDTO model)
         {
             var user = _userRepository.GetByEmail(model.Email!);
 
@@ -222,7 +255,6 @@ namespace SmartAgroAPI.Controllers
             if (authenticated) return Ok("User password sucessfully changed.");
 
             return BadRequest("Invalid token.");
-
         }
 
 
