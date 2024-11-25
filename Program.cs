@@ -95,9 +95,10 @@ builder.Services.AddSwaggerGen(options =>
 
 //Dependency Injections
 
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<EmailSendingService>();
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 builder.Services.AddHostedService<DataGenerationService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
