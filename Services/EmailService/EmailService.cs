@@ -8,9 +8,9 @@ namespace SmartAgroAPI.Services.EmailService
 {
     public class EmailService : IEmailService
     {
-        private readonly SmtpSettings emailSettings;
+        private readonly EmailSettings emailSettings;
 
-        public EmailService(IOptions<SmtpSettings> options)
+        public EmailService(IOptions<EmailSettings> options)
         {
             emailSettings = options.Value;
 
