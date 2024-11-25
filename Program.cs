@@ -6,6 +6,7 @@ using SmartAgroAPI.Contexts;
 using SmartAgroAPI.Interfaces;
 using SmartAgroAPI.Mappings;
 using SmartAgroAPI.Repositories;
+using SmartAgroAPI.Services;
 using SmartAgroAPI.Services.EmailService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -98,6 +99,7 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddScoped<EmailSendingService>();
 
+builder.Services.AddHostedService<DataGenerationService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ISensorRepository, SensorRepository>();
 

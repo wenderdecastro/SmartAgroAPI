@@ -30,7 +30,7 @@ namespace SmartAgroAPI.Services.EmailService
 
             using (var smtp = new SmtpClient())
             {
-                smtp.Connect(emailSettings.Host, emailSettings.Port, SecureSocketOptions.StartTls);
+                smtp.Connect(emailSettings.Host, emailSettings.Port, SecureSocketOptions.Auto);
 
                 smtp.Authenticate(emailSettings.Email, emailSettings.Password);
 
