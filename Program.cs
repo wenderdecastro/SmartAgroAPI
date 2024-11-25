@@ -98,7 +98,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<EmailSendingService>();
 
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 builder.Services.AddHostedService<DataGenerationService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();

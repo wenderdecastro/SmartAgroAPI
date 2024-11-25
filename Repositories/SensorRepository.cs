@@ -68,7 +68,7 @@ namespace SmartAgroAPI.Repositories
                 .Select(x =>
                 new SensorDTO(x)
                 {
-                    SensorLogs = x.LogsSensors.Select(x => new LogsSensorDTO(x)).Where(x => x.DataAtualizacao.Value > DateTime.Now.AddDays(-7)).ToList(),
+                    SensorLogs = x.LogsSensors.Select(x => new LogsSensorDTO(x)).ToList(),
                 })
                 .ToList();
 
