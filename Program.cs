@@ -109,7 +109,7 @@ builder.Services.AddDbContext<SmartAgroDbContext>(options =>
 
 //Configurations
 
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetRequiredSection("EmailSettings"));
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 
 builder.Services.AddAuthorization(options =>
