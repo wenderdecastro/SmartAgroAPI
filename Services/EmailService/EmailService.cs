@@ -20,7 +20,7 @@ namespace SmartAgroAPI.Services.EmailService
         {
             var email = new MimeMessage();
 
-            email.Sender = MailboxAddress.Parse(emailSettings.Email);
+            email.Sender = MailboxAddress.Parse(Environment.GetEnvironmentVariable("EMAILSETTINGS_EMAILSENDER"));
             email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
             email.Subject = mailRequest.Subject;
 
@@ -30,9 +30,9 @@ namespace SmartAgroAPI.Services.EmailService
 
             using (var smtp = new SmtpClient())
             {
-                smtp.Connect(emailSettings.Host, emailSettings.Port, SecureSocketOptions.Auto);
+                smtp.Connect(Environment.GetEnvironmentVariable("EMAILSETTINGS_HOST"), Convert.ToInt32(Environment.GetEnvironmentVariable("EMAILSETTINGS_PORT")), SecureSocketOptions.StartTls);
 
-                smtp.Authenticate(emailSettings.Email, emailSettings.Password);
+                smtp.Authenticate(Environment.GetEnvironmentVariable("EMAILSETTINGS_EMAILSENDER"), Environment.GetEnvironmentVariable("EMAILSETTINGS_APPPASSWORD"));
 
                 await smtp.SendAsync(email);
 

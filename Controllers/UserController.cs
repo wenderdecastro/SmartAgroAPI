@@ -152,7 +152,7 @@ namespace SmartAgroAPI.Controllers
         /// <response code="204">The user was successfully updated with the provided details.</response>
         /// <response code="404">User not found with the specified ID.</response>
         [HttpPatch("{id}")]
-        [Authorize]
+        //[Authorize]
         public IActionResult EditUserById(Guid id, [FromBody] UserDTO editedUser)
         {
             var user = _userRepository.GetById(id);

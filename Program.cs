@@ -94,7 +94,6 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 //Dependency Injections
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddScoped<EmailSendingService>();
@@ -109,6 +108,9 @@ builder.Services.AddDbContext<SmartAgroDbContext>(options =>
 );
 
 //Configurations
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetRequiredSection("EmailSettings"));
+
 
 builder.Services.AddAuthorization(options =>
 {
