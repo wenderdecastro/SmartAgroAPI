@@ -8,7 +8,8 @@ namespace SmartAgroAPI.Mappings
     {
         public UserProfile()
         {
-            CreateMap<Usuario, UserDTO>().ReverseMap();
+            CreateMap<UserDTO, Usuario>().ForMember(dest => dest.Id, opt => opt.Ignore()).ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<Usuario, UserDTO>().ForMember(dest => dest.Id, opt => opt.Ignore()).ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }
