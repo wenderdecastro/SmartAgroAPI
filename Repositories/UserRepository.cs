@@ -1,4 +1,5 @@
-﻿using SmartAgroAPI.Contexts;
+﻿using AutoMapper;
+using SmartAgroAPI.Contexts;
 using SmartAgroAPI.DataTransferObjects;
 using SmartAgroAPI.Interfaces;
 using SmartAgroAPI.Models;
@@ -9,10 +10,13 @@ namespace SmartAgroAPI.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly SmartAgroDbContext _context;
+        public readonly IMapper _mapper;
 
-        public UserRepository(SmartAgroDbContext context)
+        public UserRepository(SmartAgroDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
+
         }
 
         public bool AuthenticateCode(Guid userId, string code)
@@ -37,10 +41,11 @@ namespace SmartAgroAPI.Repositories
             _context.SaveChanges();
         }
 
-        public void Edit(Usuario editedUser)
+        public void Edit(Guid userId, UserEditDTO editedUser)
         {
-
-            _context.Usuarios.Update(editedUser!);
+            var olduser = _context.Usuarios.Find(userId);
+            _mapper.Map(editedUser, olduser);
+            _context.Usuarios.Update(olduser!);
             _context.SaveChanges();
 
         }
@@ -57,7 +62,8 @@ namespace SmartAgroAPI.Repositories
             user!.CodigoVerificacao = recoveryCode;
             user!.ExpiracaoCodigo = expiration;
 
-            Edit(user);
+            _context.Usuarios.Update(user);
+            _context.SaveChanges();
 
             return recoveryCode;
         }

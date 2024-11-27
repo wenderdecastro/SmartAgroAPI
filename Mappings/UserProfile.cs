@@ -8,8 +8,10 @@ namespace SmartAgroAPI.Mappings
     {
         public UserProfile()
         {
-            CreateMap<UserDTO, Usuario>().ForMember(dest => dest.Id, opt => opt.Ignore()).ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
-            CreateMap<Usuario, UserDTO>().ForMember(dest => dest.Id, opt => opt.Ignore()).ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<Usuario, Usuario>().ForMember(dest => dest.Id, opt => opt.Ignore()).ForMember(dest => dest.Senha, opt => opt.Ignore()).ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<UserEditDTO, Usuario>().ForMember(dest => dest.Id, opt => opt.Ignore()).ForMember(dest => dest.Senha, opt => opt.Ignore()).ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UserEditDTO, Usuario>().ForMember(dest => dest.Id, opt => opt.Ignore()).ForMember(dest => dest.Senha, opt => opt.Ignore()).ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartAgroAPI.DataTransferObjects;
 using SmartAgroAPI.Interfaces;
@@ -20,7 +19,6 @@ namespace SmartAgroAPI.Controllers
     {
 
         private readonly IUserRepository _userRepository;
-        public readonly IMapper _mapper;
 
         private readonly EmailSendingService _emailService;
 
@@ -30,11 +28,10 @@ namespace SmartAgroAPI.Controllers
         /// <param name="userRepository"></param>
         /// <param name="emailSendingService"></param>
         /// <param name="mapper"></param>
-        public UserController(IUserRepository userRepository, EmailSendingService emailSendingService, IMapper mapper)
+        public UserController(IUserRepository userRepository, EmailSendingService emailSendingService)
         {
             _userRepository = userRepository;
             _emailService = emailSendingService;
-            _mapper = mapper;
         }
 
 
@@ -153,13 +150,9 @@ namespace SmartAgroAPI.Controllers
         /// <response code="404">User not found with the specified ID.</response>
         [HttpPatch("{id}")]
         //[Authorize]
-        public IActionResult EditUserById(Guid id, [FromBody] UserDTO editedUser)
+        public IActionResult EditUserById(Guid id, [FromBody] UserEditDTO editedUser)
         {
-            var user = _userRepository.GetById(id);
-
-            _mapper.Map(editedUser, user);
-
-            _userRepository.Edit(user!);
+            _userRepository.Edit(id, editedUser);
 
             return NoContent();
         }

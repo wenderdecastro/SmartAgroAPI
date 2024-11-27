@@ -36,8 +36,8 @@ namespace SmartAgroAPI.Services
                     log.QualidadeAr = r.Next(100, 200);
                     log.TemperaturaSolo = sensor.TemperaturaSoloIdeal!.Value + r.Next(-5, 5);
                     log.UmidadeSolo = sensor.UmidadeSoloIdeal!.Value + r.Next(-5, 5);
-                    log.PhSolo = sensor.PhSoloIdeal!.Value + r.Next(-3, 3);
-                    log.Luminosidade = sensor.LuminosidadeIdeal!.Value + r.Next(-5000, 5000);
+                    log.PhSolo = sensor.PhSoloIdeal!.Value + r.Next(-1, 1);
+                    log.Luminosidade = sensor.LuminosidadeIdeal!.Value + r.Next(-1500, 1500);
 
                     context.LogsSensors.Add(log);
                 }

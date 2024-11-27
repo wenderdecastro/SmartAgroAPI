@@ -11,7 +11,7 @@ namespace SmartAgroAPI.Interfaces
         Usuario? GetByEmail(string email);
         List<UserDTO> GetAll();
         void Register(UserRegisterDTO user);
-        void Edit(Usuario user);
+        void Edit(Guid userId, UserEditDTO user);
         string? GenerateRecoveryCode(Guid userId);
         bool AuthenticateCode(Guid userId, string code);
     }
