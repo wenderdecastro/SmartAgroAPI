@@ -1,12 +1,13 @@
-﻿using SmartAgroAPI.Models;
+﻿using SmartAgroAPI.DataTransferObjects;
+using SmartAgroAPI.Models;
 
 namespace SmartAgroAPI.Interfaces
 {
     public interface INotificationRepository
     {
-        List<Notificacao> GetAllNotifications();
-        List<Notificacao> GetNotificationsFromUser(Guid userId);
-        void CreateNotification();
-
+        List<NotificationDTO> GetAllNotifications();
+        List<NotificationDTO> GetNotificationsFromAnUser(Guid userId);
+        List<Notificacao> GetNotificationsFromAnUserInADate(Guid userId, DateTime? date);
+        void CreateNotification(NotificationCreationDTO notification);
     }
 }

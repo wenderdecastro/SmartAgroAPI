@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SmartAgroAPI.Models;
+﻿namespace SmartAgroAPI.Models;
 
 public partial class Notificacao
 {
     public int Id { get; set; }
 
-    public string? MensagemCustomizada { get; set; }
+    public string? Mensagem { get; set; }
 
-    public int SensorId { get; set; }
+    public string? Propriedade { get; set; }
+
+    public int LogsSensorId { get; set; }
 
     public Guid UsuarioId { get; set; }
 
     public int TipoNotificacaoId { get; set; }
 
-    public DateTime? DataCriacao { get; set; }
+    public DateTime? DataCriacao { get; set; } = DateTime.Now;
 
-    public virtual Sensor Sensor { get; set; } = null!;
+    public virtual Sensor LogsSensor { get; set; } = null!;
 
     public virtual NotificacaoStatus TipoNotificacao { get; set; } = null!;
 
