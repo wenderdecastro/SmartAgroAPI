@@ -100,7 +100,9 @@ builder.Services.AddScoped<EmailSendingService>();
 
 
 builder.Services.AddHostedService<DataGenerationService>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<ISensorRepository, SensorRepository>();
 
 builder.Services.AddDbContext<SmartAgroDbContext>(options =>
