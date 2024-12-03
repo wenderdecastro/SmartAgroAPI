@@ -35,11 +35,11 @@ namespace SmartAgroAPI.Services
                         Id = Guid.NewGuid(),
                         SensorId = sensor.Id,
                         DataAtualizacao = DateTime.Now,
-                        TemperaturaAr = GenerateValue(random, lastLog?.TemperaturaAr, -10, 45, -5, 5),
-                        UmidadeAr = GenerateValue(random, lastLog?.UmidadeAr, 0, 100, -5, 5),
+                        TemperaturaAr = GenerateValue(random, lastLog?.TemperaturaAr, -10, 40, -2, 2),
+                        UmidadeAr = GenerateValue(random, lastLog?.UmidadeAr, 0, 100, -2, 2),
                         QualidadeAr = random.Next(100, 200),
-                        TemperaturaSolo = GenerateValue(random, lastLog?.TemperaturaSolo, -5, 40, -5, 5),
-                        UmidadeSolo = GenerateValue(random, lastLog?.UmidadeSolo, 0, 100, -5, 5),
+                        TemperaturaSolo = GenerateValue(random, lastLog?.TemperaturaSolo, -8, 35, -2, 2),
+                        UmidadeSolo = GenerateValue(random, lastLog?.UmidadeSolo, 0, 100, -2, 2),
                         PhSolo = GenerateValue(random, lastLog?.PhSolo, 0, 14, -1, 1),
                         Luminosidade = GenerateValue(random, lastLog?.Luminosidade, 0, 130000, -5500, 5500)
                     };
@@ -83,7 +83,7 @@ namespace SmartAgroAPI.Services
                 Notify(log, nameof(log.TemperaturaAr));
                 return;
             }
-            if (IsOutOfRange(log.TemperaturaSolo, 5, 20))
+            if (IsOutOfRange(log.TemperaturaSolo, 5, 25))
             {
                 Notify(log, nameof(log.TemperaturaSolo));
                 return;
