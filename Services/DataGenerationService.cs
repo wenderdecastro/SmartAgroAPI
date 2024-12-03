@@ -116,7 +116,7 @@ namespace SmartAgroAPI.Services
             {
                 var context = scope.ServiceProvider.GetRequiredService<SmartAgroDbContext>();
 
-                if (context.Notificacaos.Any(x => x.Propriedade == "v" && x.DataCriacao!.Value.Date == DateTime.Now.Date))
+                if (context.Notificacaos.Any(x => x.Propriedade == v && x.DataCriacao!.Value.Date == DateTime.Now.Date))
                 {
                     return;
                 }
