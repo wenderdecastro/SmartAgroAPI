@@ -25,6 +25,7 @@ public partial class SmartAgroDbContext : DbContext
     public virtual DbSet<Sensor> Sensors { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Categoria>(entity =>
@@ -36,10 +37,9 @@ public partial class SmartAgroDbContext : DbContext
 
         modelBuilder.Entity<LogsSensor>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_DadosSensor");
-
             entity.ToTable("LogsSensor");
 
+            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.DataAtualizacao).HasColumnType("datetime");
             entity.Property(e => e.Luminosidade).HasColumnType("decimal(7, 2)");
             entity.Property(e => e.PhSolo).HasColumnType("decimal(4, 2)");
@@ -60,15 +60,15 @@ public partial class SmartAgroDbContext : DbContext
 
             entity.ToTable("Notificacao");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.DataCriacao).HasColumnType("datetime");
             entity.Property(e => e.Mensagem).HasColumnType("text");
-            entity.Property(e => e.Propriedade).HasColumnType("text");
+            entity.Property(e => e.Propriedade)
+                .HasMaxLength(120)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.LogsSensor).WithMany(p => p.Notificacaos)
                 .HasForeignKey(d => d.LogsSensorId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Notificacoes_Sensor");
+                .HasConstraintName("FK_Notificacao_LogsSensor");
 
             entity.HasOne(d => d.TipoNotificacao).WithMany(p => p.Notificacaos)
                 .HasForeignKey(d => d.TipoNotificacaoId)

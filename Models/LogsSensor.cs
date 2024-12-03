@@ -5,7 +5,7 @@ namespace SmartAgroAPI.Models;
 
 public partial class LogsSensor
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public int? SensorId { get; set; }
 
@@ -24,6 +24,8 @@ public partial class LogsSensor
     public decimal? PhSolo { get; set; }
 
     public DateTime? DataAtualizacao { get; set; }
+
+    public virtual ICollection<Notificacao> Notificacaos { get; set; } = new List<Notificacao>();
 
     public virtual Sensor? Sensor { get; set; }
 }

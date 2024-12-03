@@ -32,6 +32,7 @@ namespace SmartAgroAPI.Services
 
                     var log = new LogsSensor
                     {
+                        Id = Guid.NewGuid(),
                         SensorId = sensor.Id,
                         DataAtualizacao = DateTime.Now,
                         TemperaturaAr = GenerateValue(random, lastLog?.TemperaturaAr, -10, 45, -5, 5),
@@ -66,7 +67,7 @@ namespace SmartAgroAPI.Services
 
         bool IsOutOfRange(decimal? value, decimal min, decimal max)
         {
-            return value <= min && value >= max;
+            return value <= min || value >= max;
         }
 
         private void CheckIfAnyPropertyIsHarmful(LogsSensor log)
@@ -119,14 +120,14 @@ namespace SmartAgroAPI.Services
                 {
                     return;
                 }
-                var sensor = context.LogsSensors.FirstOrDefault(x => x.DataAtualizacao == log.DataAtualizacao)!;
+
                 var notification = new Notificacao()
                 {
                     Mensagem = "está fora da faixa ideal.",
-                    LogsSensorId = sensor.Id,
+                    LogsSensorId = log.Id,
                     DataCriacao = DateTime.Now,
                     TipoNotificacaoId = (int)NotificationType.Danger,
-                    UsuarioId = sensor!.Sensor!.UsuarioId,
+                    UsuarioId = log.Sensor.UsuarioId,
                     Propriedade = v
 
                 };

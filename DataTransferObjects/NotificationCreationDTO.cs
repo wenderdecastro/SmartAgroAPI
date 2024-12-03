@@ -17,7 +17,7 @@ namespace SmartAgroAPI.DataTransferObjects
 
         public string? Propriedade { get; set; }
 
-        public int LogsSensorId { get; set; }
+        public Guid? LogsSensorId { get; set; }
 
         public Guid UsuarioId { get; set; }
 
