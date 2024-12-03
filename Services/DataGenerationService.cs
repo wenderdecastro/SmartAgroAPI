@@ -67,7 +67,7 @@ namespace SmartAgroAPI.Services
 
         bool IsOutOfRange(decimal? value, decimal min, decimal max)
         {
-            return value <= min || value >= max;
+            return value < min || value > max;
         }
 
         private void CheckIfAnyPropertyIsHarmful(LogsSensor log)
@@ -85,7 +85,7 @@ namespace SmartAgroAPI.Services
             }
             if (IsOutOfRange(log.TemperaturaSolo, 5, 20))
             {
-                Notify(log, nameof(log.Luminosidade));
+                Notify(log, nameof(log.TemperaturaSolo));
                 return;
             }
             if (IsOutOfRange(log.UmidadeSolo, 40, 85))
