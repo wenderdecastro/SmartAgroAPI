@@ -16,40 +16,52 @@ namespace SmartAgroAPI.Services
             _serviceProvider = serviceProvider;
         }
 
-        private void GenerateSensorsData(object? state)
+        private async void GenerateSensorsData(object? state)
         {
+
+
             using (var scope = _serviceProvider.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<SmartAgroDbContext>();
-
+                var logs = new List<LogsSensor>();
                 var sensors = context.Sensors.ToList();
                 foreach (var sensor in sensors)
                 {
-                    var log = new LogsSensor()
+                    var lastLog = context.LogsSensors.OrderByDescending(x => x.DataAtualizacao).FirstOrDefault(x => x.SensorId == sensor.Id);
+                    var random = new Random();
+
+                    var log = new LogsSensor
                     {
                         SensorId = sensor.Id,
-                        DataAtualizacao = DateTime.Now
+                        DataAtualizacao = DateTime.Now,
+                        TemperaturaAr = GenerateValue(random, lastLog?.TemperaturaAr, -10, 45, -5, 5),
+                        UmidadeAr = GenerateValue(random, lastLog?.UmidadeAr, 0, 100, -5, 5),
+                        QualidadeAr = random.Next(100, 200),
+                        TemperaturaSolo = GenerateValue(random, lastLog?.TemperaturaSolo, -5, 40, -5, 5),
+                        UmidadeSolo = GenerateValue(random, lastLog?.UmidadeSolo, 0, 100, -5, 5),
+                        PhSolo = GenerateValue(random, lastLog?.PhSolo, 0, 14, -1, 1),
+                        Luminosidade = GenerateValue(random, lastLog?.Luminosidade, 0, 130000, -5500, 5500)
                     };
 
-                    var r = new Random();
+                    logs.Add(log);
+                }
 
-                    var lastlogFromSensor = context.LogsSensors.OrderByDescending(x => x.DataAtualizacao).FirstOrDefault();
-                    log.TemperaturaAr = Math.Clamp(lastlogFromSensor!.TemperaturaAr!.Value + r.Next(-5, 5), -10, 45);
-                    log.UmidadeAr = Math.Clamp(lastlogFromSensor.UmidadeAr!.Value + r.Next(-5, 5), 0, 100);
-                    log.QualidadeAr = r.Next(100, 200);
-                    log.TemperaturaSolo = Math.Clamp(lastlogFromSensor.TemperaturaSolo!.Value + r.Next(-5, 5), -5, 40);
-                    log.UmidadeSolo = Math.Clamp(lastlogFromSensor.UmidadeSolo!.Value + r.Next(-5, 5), 0, 100);
-                    log.PhSolo = Math.Clamp(lastlogFromSensor.PhSolo!.Value + r.Next(-1, 1), 0, 14);
-                    log.Luminosidade = Math.Clamp(lastlogFromSensor.Luminosidade!.Value + r.Next(-5500, 5500), 0, 130000);
+                context.LogsSensors.AddRange(logs);
+                await context.SaveChangesAsync();
 
-                    context.LogsSensors.Add(log);
-
+                foreach (var log in logs)
+                {
                     CheckIfAnyPropertyIsHarmful(log);
                 }
 
-                context.SaveChanges();
             }
 
+        }
+
+        private static decimal GenerateValue(Random random, decimal? lastValue, decimal minValue, decimal maxValue, int minChange, int maxChange)
+        {
+            var newValue = (lastValue ?? (minValue + maxValue) / 2) + random.Next(minChange, maxChange);
+            return Math.Clamp(newValue, minValue, maxValue);
         }
 
         bool IsOutOfRange(decimal? value, decimal min, decimal max)
