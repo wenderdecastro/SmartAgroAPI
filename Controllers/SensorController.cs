@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartAgroAPI.DataTransferObjects;
 using SmartAgroAPI.Interfaces;
-using SmartAgroAPI.Models;
 
 namespace SmartAgroAPI.Controllers
 {
@@ -51,7 +50,7 @@ namespace SmartAgroAPI.Controllers
         //POST api/Sensor
 
         [HttpPost]
-        public IActionResult RegisterSensor([FromBody] Sensor sensor)
+        public IActionResult RegisterSensor([FromBody] EditSensorDTO sensor)
         {
             _sensorRepository.Register(sensor);
             return Created();

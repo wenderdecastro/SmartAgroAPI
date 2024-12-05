@@ -8,7 +8,7 @@ namespace SmartAgroAPI.Interfaces
         List<LogsSensorDTO> GetLogs(int sensorId);
         List<SensorDTO> GetSensors(Guid userId);
         void Edit(int sensorId, EditSensorDTO editedSensor);
-        void Register(Sensor sensor);
+        void Register(EditSensorDTO sensor);
         void ChangeLocation(int sensorId, decimal longitude, decimal latitude);
         void CreateLog(LogsSensor log);
         Sensor? GetById(int sensorId);
