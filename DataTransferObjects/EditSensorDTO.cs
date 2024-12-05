@@ -6,7 +6,7 @@
 
         public string? Nome { get; set; }
 
-        public DateOnly? DataColheita { get; set; }
+        public DateTime? DataColheita { get; set; }
 
         public decimal? Latitude { get; set; }
 

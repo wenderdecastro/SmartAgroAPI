@@ -81,7 +81,7 @@ namespace SmartAgroAPI.Repositories
             var sensor = new Sensor()
             {
                 CategoriaId = newSensor.CategoriaId,
-                DataColheita = newSensor.DataColheita,
+                DataColheita = new DateOnly(newSensor.DataColheita.Value.Year, newSensor.DataColheita.Value.Month, newSensor.DataColheita.Value.Day),
                 Latitude = newSensor.Latitude,
                 Longitude = newSensor.Longitude,
                 PhSoloIdeal = newSensor.PhSoloIdeal,
