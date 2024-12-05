@@ -40,7 +40,7 @@ namespace SmartAgroAPI.Services
                         QualidadeAr = random.Next(100, 200),
                         TemperaturaSolo = GenerateValue(random, lastLog?.TemperaturaSolo, -8, 35, -2, 2),
                         UmidadeSolo = GenerateValue(random, lastLog?.UmidadeSolo, 0, 100, -2, 2),
-                        PhSolo = GenerateValue(random, lastLog?.PhSolo, 0, 14, -1, 1),
+                        PhSolo = GenerateValue(random, lastLog?.PhSolo, 1, 14, -2, 2),
                         Luminosidade = GenerateValue(random, lastLog?.Luminosidade, 0, 130000, -5500, 5500)
                     };
 
