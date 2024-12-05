@@ -14,7 +14,7 @@ namespace SmartAgroAPI.Controllers
         {
             _notificationRepository = notificationRepository;
         }
-
+        //GET api/Notification
         [HttpGet]
         public IActionResult Get()
         {
@@ -22,15 +22,18 @@ namespace SmartAgroAPI.Controllers
             return Ok(notifications);
         }
 
-        [HttpGet("/user/{id}")]
-        public IActionResult Get(Guid id)
+        //GET api/Notification/user/{id}
+
+        [HttpGet("user/{id}")]
+        public IActionResult GetNotificationFromUser(Guid id)
         {
             var notifications = _notificationRepository.GetNotificationsFromAnUser(id);
             return Ok(notifications);
         }
+        //GET api/Notification/fetch/{id}
 
-        [HttpGet("/fetch/{id}")]
-        public IActionResult GetNotifications(Guid id, DateTime? lastUpdate)
+        [HttpGet("fetch/{id}")]
+        public IActionResult GetNotificationsFromADate(Guid id, DateTime? lastUpdate)
         {
             var notifications = _notificationRepository.GetNotificationsFromAnUserInADate(id, lastUpdate);
             return Ok(notifications);
