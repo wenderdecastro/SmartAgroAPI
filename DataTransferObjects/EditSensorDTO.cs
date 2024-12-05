@@ -13,6 +13,7 @@
         public decimal? Longitude { get; set; }
 
         public int CategoriaId { get; set; }
+        public Guid UsuarioID { get; set; }
 
         public decimal? UmidadeSoloIdeal { get; set; }
 

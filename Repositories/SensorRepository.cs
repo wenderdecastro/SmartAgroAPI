@@ -76,8 +76,24 @@ namespace SmartAgroAPI.Repositories
 
         }
 
-        public void Register(Sensor sensor)
+        public void Register(EditSensorDTO newSensor)
         {
+            var sensor = new Sensor()
+            {
+                CategoriaId = newSensor.CategoriaId,
+                DataColheita = newSensor.DataColheita,
+                Latitude = newSensor.Latitude,
+                Longitude = newSensor.Longitude,
+                PhSoloIdeal = newSensor.PhSoloIdeal,
+                LuminosidadeIdeal = newSensor.LuminosidadeIdeal,
+                Nome = newSensor.Nome,
+                TemperaturaArIdeal = newSensor.TemperaturaArIdeal,
+                TemperaturaSoloIdeal = newSensor.TemperaturaSoloIdeal,
+                UmidadeArIdeal = newSensor.UmidadeArIdeal,
+                UmidadeSoloIdeal = newSensor.UmidadeSoloIdeal,
+                UsuarioId = newSensor.UsuarioID
+            };
+
             _context.Sensors.Add(sensor);
             _context.SaveChanges();
         }

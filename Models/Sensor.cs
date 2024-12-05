@@ -28,9 +28,9 @@ public partial class Sensor
 
     public Guid UsuarioId { get; set; }
 
-    public virtual Categoria Categoria { get; set; }
+    public virtual Categoria? Categoria { get; set; } = null;
 
     public virtual ICollection<LogsSensor> LogsSensors { get; set; } = new List<LogsSensor>();
 
-    public virtual Usuario Usuario { get; set; }
+    public virtual Usuario? Usuario { get; set; } = null;
 }
