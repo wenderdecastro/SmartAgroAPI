@@ -46,6 +46,15 @@ namespace SmartAgroAPI.Repositories
         {
             var notifications = _context.Notificacaos.Where(x => (x.UsuarioId == userId) && (lastUpdate == null || x.DataCriacao >= lastUpdate)).ToList();
 
+            foreach (var item in notifications)
+            {
+                item.LogsSensor = _context.LogsSensors.FirstOrDefault(x => x.Id == item.LogsSensorId);
+                item.LogsSensor.Sensor = _context.Sensors.FirstOrDefault(x => x.Id == item.LogsSensor.SensorId);
+                item.LogsSensor.Notificacaos = null;
+                item.LogsSensor.Sensor.LogsSensors = null;
+                item.LogsSensor.Sensor.Usuario = null;
+            }
+
             return notifications;
         }
     }
