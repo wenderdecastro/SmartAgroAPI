@@ -6,14 +6,13 @@
 
         public string? Nome { get; set; }
 
-        public DateTime? DataColheita { get; set; }
+        public DateOnly? DataColheita { get; set; }
 
         public decimal? Latitude { get; set; }
 
         public decimal? Longitude { get; set; }
 
         public int CategoriaId { get; set; }
-        public Guid UsuarioID { get; set; }
 
         public decimal? UmidadeSoloIdeal { get; set; }
 
@@ -26,6 +25,8 @@
         public decimal? TemperaturaSoloIdeal { get; set; }
 
         public decimal? PhSoloIdeal { get; set; }
+
+        public Guid UsuarioId { get; set; }
 
     }
 }

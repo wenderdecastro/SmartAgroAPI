@@ -91,7 +91,7 @@ namespace SmartAgroAPI.Repositories
                 TemperaturaSoloIdeal = newSensor.TemperaturaSoloIdeal,
                 UmidadeArIdeal = newSensor.UmidadeArIdeal,
                 UmidadeSoloIdeal = newSensor.UmidadeSoloIdeal,
-                UsuarioId = newSensor.UsuarioID
+                UsuarioId = newSensor.UsuarioId
             };
 
             _context.Sensors.Add(sensor);

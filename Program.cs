@@ -23,8 +23,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 //AutoMapper
 
-builder.Services.AddAutoMapper(typeof(SensorProfile));
-
 
 
 //Api Services
@@ -110,6 +108,12 @@ builder.Services.AddDbContext<SmartAgroDbContext>(options =>
 );
 
 //Configurations
+
+
+builder.Services.AddAutoMapper(typeof(SensorProfile));
+builder.Services.AddAutoMapper(typeof(NotificationProfile));
+builder.Services.AddAutoMapper(typeof(UserProfile));
+
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
