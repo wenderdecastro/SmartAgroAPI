@@ -39,6 +39,14 @@ namespace SmartAgroAPI.Controllers
             return Ok(notifications);
         }
 
+        [HttpGet("anyDangerous/{id}")]
+        public IActionResult Return(Guid id)
+        {
+            var result = _notificationRepository.IsAnyPropertyDangerousToday(id);
+            return Ok(result);
+        }
+
+
         [HttpPost]
         public IActionResult CreateNotification(NotificationCreationDTO notification)
         {

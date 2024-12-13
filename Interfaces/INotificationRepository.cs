@@ -9,5 +9,7 @@ namespace SmartAgroAPI.Interfaces
         List<NotificationDTO> GetNotificationsFromAnUser(Guid userId);
         List<Notificacao> GetNotificationsFromAnUserInADate(Guid userId, DateTime? date);
         void CreateNotification(NotificationCreationDTO notification);
+
+        bool IsAnyPropertyDangerousToday(Guid IdUsuario);
     }
 }

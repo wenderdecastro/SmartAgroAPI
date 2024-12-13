@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SmartAgroAPI.Contexts;
 using SmartAgroAPI.DataTransferObjects;
 using SmartAgroAPI.Interfaces;
@@ -64,13 +65,14 @@ namespace SmartAgroAPI.Repositories
 
         public List<SensorDTO> GetSensors(Guid userId)
         {
-            var sensores = _context.Sensors.Where(x => x.UsuarioId == userId)
-                .Select(x =>
-                new SensorDTO(x)
-                {
-                    SensorLogs = x.LogsSensors.Select(x => new LogsSensorDTO(x)).ToList(),
-                })
-                .ToList();
+            var sensores = _context.Sensors
+    .Include(x => x.LogsSensors)
+    .Where(x => x.UsuarioId == userId)
+    .Select(x => new SensorDTO(x)
+    {
+        SensorLogs = x.LogsSensors.Select(log => new LogsSensorDTO(log)).ToList(),
+    })
+    .ToList();
 
             return sensores;
 

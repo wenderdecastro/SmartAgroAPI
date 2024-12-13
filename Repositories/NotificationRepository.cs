@@ -2,6 +2,7 @@
 using SmartAgroAPI.DataTransferObjects;
 using SmartAgroAPI.Interfaces;
 using SmartAgroAPI.Models;
+using SmartAgroAPI.Services;
 
 namespace SmartAgroAPI.Repositories
 {
@@ -56,6 +57,45 @@ namespace SmartAgroAPI.Repositories
             }
 
             return notifications;
+        }
+
+        public bool IsAnyPropertyDangerousToday(Guid IdUsuario)
+        {
+            var today = DateTime.Now.Date;
+            var todayLogs = _context.LogsSensors.Where(x => x.Sensor.UsuarioId == IdUsuario && x.DataAtualizacao.Value.Date == today).ToList();
+            foreach (var log in todayLogs)
+            {
+                if (DataGenerationService.IsOutOfRange(log.Luminosidade, 1000, 100000))
+                {
+                    return true;
+                }
+                if (DataGenerationService.IsOutOfRange(log.TemperaturaAr, 5, 25))
+                {
+                    return true;
+                }
+                if (DataGenerationService.IsOutOfRange(log.TemperaturaSolo, 5, 25))
+                {
+                    return true;
+                }
+                if (DataGenerationService.IsOutOfRange(log.UmidadeSolo, 40, 85))
+                {
+                    return true;
+                }
+                if (DataGenerationService.IsOutOfRange(log.UmidadeAr, 30, 80))
+                {
+                    return true;
+                }
+                if (DataGenerationService.IsOutOfRange(log.PhSolo, 5, 12))
+                {
+                    return true;
+                }
+                if (DataGenerationService.IsOutOfRange(log.QualidadeAr, 100, 200))
+                {
+                    return true;
+                }
+            }
+            return false;
+
         }
     }
 }

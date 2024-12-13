@@ -41,7 +41,7 @@ namespace SmartAgroAPI.Services
                         TemperaturaSolo = GenerateValue(random, lastLog?.TemperaturaSolo, -8, 35, -2, 2),
                         UmidadeSolo = GenerateValue(random, lastLog?.UmidadeSolo, 0, 100, -2, 2),
                         PhSolo = GenerateValue(random, lastLog?.PhSolo, 1, 14, -2, 2),
-                        Luminosidade = GenerateValue(random, lastLog?.Luminosidade, 0, 99999, -5500, 5500)
+                        Luminosidade = GenerateValue(random, lastLog?.Luminosidade, 0, 99999, -3000, 3000)
                     };
 
                     logs.Add(log);
@@ -65,7 +65,7 @@ namespace SmartAgroAPI.Services
             return Math.Clamp(newValue, minValue, maxValue);
         }
 
-        bool IsOutOfRange(decimal? value, decimal min, decimal max)
+        public static bool IsOutOfRange(decimal? value, decimal min, decimal max)
         {
             return value < min || value > max;
         }
