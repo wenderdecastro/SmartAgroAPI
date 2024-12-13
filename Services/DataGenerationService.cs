@@ -139,7 +139,7 @@ namespace SmartAgroAPI.Services
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            timer = new Timer(GenerateSensorsData, null, TimeSpan.Zero, TimeSpan.FromMinutes(15));
+            timer = new Timer(GenerateSensorsData, null, TimeSpan.Zero, TimeSpan.FromMinutes(45));
             return Task.CompletedTask;
         }
 

@@ -43,20 +43,35 @@ namespace SmartAgroAPI.Repositories
             return notifications;
         }
 
-        public List<Notificacao> GetNotificationsFromAnUserInADate(Guid userId, DateTime? lastUpdate)
+        public List<NotificationFetchDTO> GetNotificationsFromAnUserInADate(Guid userId, DateTime? lastUpdate)
         {
             var notifications = _context.Notificacaos.Where(x => (x.UsuarioId == userId) && (lastUpdate == null || x.DataCriacao >= lastUpdate)).ToList();
-
+            var notificationsReturn = new List<NotificationFetchDTO>();
             foreach (var item in notifications)
             {
-                item.LogsSensor = _context.LogsSensors.FirstOrDefault(x => x.Id == item.LogsSensorId);
-                item.LogsSensor.Sensor = _context.Sensors.FirstOrDefault(x => x.Id == item.LogsSensor.SensorId);
-                item.LogsSensor.Notificacaos = null;
-                item.LogsSensor.Sensor.LogsSensors = null;
-                item.LogsSensor.Sensor.Usuario = null;
+                var itemlog = _context.LogsSensors.Find(item.LogsSensorId);
+                itemlog.Sensor = null;
+                var itemSensor = _context.Sensors.Find(itemlog.SensorId);
+                itemlog.Notificacaos = null;
+                itemSensor.LogsSensors = null;
+
+                notificationsReturn.Add(new NotificationFetchDTO()
+                {
+                    DataCriacao = item.DataCriacao,
+                    Id = item.Id,
+                    LogsSensor = itemlog,
+                    LogsSensorId = item.LogsSensorId,
+                    Mensagem = item.Mensagem,
+                    NomeBaia = itemSensor.Nome,
+                    SensorId = itemSensor.Id,
+                    TipoNotificacaoId = item.TipoNotificacaoId,
+                    Propriedade = item.Propriedade,
+                    UsuarioId = item.UsuarioId,
+
+                });
             }
 
-            return notifications;
+            return notificationsReturn;
         }
 
         public bool IsAnyPropertyDangerousToday(Guid IdUsuario)
